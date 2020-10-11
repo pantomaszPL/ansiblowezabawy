@@ -1,0 +1,21 @@
+---
+       -  name: install programs
+          yum:
+            name: "{{ item }}"
+            state: latest
+          loop:
+            - python3
+            - tree
+            - cockpit
+
+       -  name: enable cockpit service
+          systemd: 
+            name: "cockpit.socket"
+            state: started
+            enabled: true
+
+       -  name: set firewall for cockpit
+          firewalld:
+            service: cockpit
+            state: enabled
+            permanent: yes

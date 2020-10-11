@@ -1,0 +1,7 @@
+---
+   -  name: testing
+      hosts: all
+      user: root
+      become: true
+      roles:
+        - vmsetup
