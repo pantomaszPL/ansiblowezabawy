@@ -4,9 +4,9 @@
             name: "{{ item }}"
             state: latest
           loop:
-            - python3
-            - tree
-            - cockpit
+            - "{{ python_pckg }}"
+            - "{{ tree_pckg }}"
+            - "{{ cockpit_pckg }}"
 
        -  name: enable cockpit service
           systemd: 

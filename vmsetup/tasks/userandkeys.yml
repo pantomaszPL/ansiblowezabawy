@@ -1,7 +1,7 @@
 ---
        -  name: add ansible user and grp
           user:
-            name: ansible
+            name: "{{ username }}"
             password: "{{ 'password' | password_hash('sha512') }}"
             state: present
        -  name: config sudoers
@@ -11,7 +11,7 @@
 
        -  name: sets sshd keys
           authorized_key:
-            user: ansible
+            user: "{{ username }}"
             state: present
             key: "{{ lookup('file','/home/ansible/.ssh/id_rsa.pub') }}"
        -  name: sshd restart
