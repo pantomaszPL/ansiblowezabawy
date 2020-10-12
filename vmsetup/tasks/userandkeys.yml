@@ -1,8 +1,9 @@
 ---
+
        -  name: add ansible user and grp
           user:
             name: "{{ username }}"
-            password: "{{ 'password' | password_hash('sha512') }}"
+            password: "{{ passwd | password_hash('sha512') }}"
             state: present
        -  name: config sudoers
           copy:
