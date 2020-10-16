@@ -3,5 +3,5 @@
 
   -  name: update for /etc/hosts
      template:
-       src: /home/ansible/roles/hostsupdate/templates/hoststemplate.j2
+       src: hoststemplate.j2
        dest: /etc/hosts
