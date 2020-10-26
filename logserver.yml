@@ -1,0 +1,13 @@
+---
+
+  -  name: setting logsto
+     hosts: logsto
+     become: true
+     roles:
+       - logsto
+
+  -  name: setting logfrom
+     hosts: logsfrom
+     become: true
+     roles: 
+       - logsfrom

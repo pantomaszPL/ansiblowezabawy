@@ -1,0 +1,31 @@
+---
+# tasks file for logsto
+
+  -  name: install rsyslog
+     yum:
+       name: "{{ logservice }}"
+       state: latest
+
+
+  -  name: setup rsyslog config
+     template:
+       src: rsyslog.j2
+       dest: /etc/rsyslog.conf
+
+  -  name: configure firewall
+     firewalld:
+       port: "{{ logsport }}"
+       permanent: yes
+       state: enabled
+
+  -  name: restart firewalld
+     service:
+       name: firewalld
+       state: reloaded
+
+  -  name: restart rsyslog
+     service:
+       name: "{{ logservice }}"
+       state: restarted
+       enabled: true
+

@@ -1,0 +1,28 @@
+---
+# tasks file for logsfrom
+
+ -  name: install rsyslog
+    yum:
+      name: "{{ logservice }}"
+      state: latest
+
+ -  name: setup rsyslog config
+    template:
+      src: rsyslog.j2
+      dest: /etc/rsyslog.conf
+
+ -  name: enable rsyslog
+    service:
+      name: "{{ logservice }}"
+      enabled: true
+      state: started
+
+ -  name: configure log forwarding destination_add rule to rsyslog file
+    lineinfile:
+      path: /etc/rsyslog.conf
+      line: "*.* @10.0.2.16:514"
+
+ -  name: restart rsyslog
+    service:
+      name: "{{ logservice }}"
+      state: restarted

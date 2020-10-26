@@ -1,0 +1,6 @@
+---
+# vars file for logsto
+
+
+  logservice: rsyslog
+  logsport: 514/udp
