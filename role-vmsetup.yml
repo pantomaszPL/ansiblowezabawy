@@ -1,4 +1,5 @@
 ---
+
    -  name: setting all vms
       hosts: all
       user: root
