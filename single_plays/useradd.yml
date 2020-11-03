@@ -1,0 +1,37 @@
+
+---
+  -  name: user add
+     hosts: all
+     become: true
+     vars_prompt:
+       - name: username
+         prompt: provide username
+         private: no
+       - name: haslo
+         prompt: provide password
+         private: yes
+     tasks:
+       -  name: check if user exists
+
+          getent:
+            database: passwd
+            key: "{{ username }}"
+          register: user_check_result
+          changed_when: false
+          ignore_errors: true
+
+       -  name: check result
+          debug:
+            var: user_check_result
+
+       -  name: adding {{ username }} if doesnt exist
+          user:
+            name: "{{ username }}"
+            password: "{{ haslo | password_hash('sha512') }}"
+            state: present
+          when: user_check_result is failed
+
+
+
+
+
