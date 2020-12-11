@@ -3,6 +3,7 @@ serv1-nfs
 serv2-lamp
 serv3
 serv4
+containers
 
 [nfs_server]
 serv1-nfs
@@ -25,3 +26,6 @@ serv4
 serv1-nfs
 serv2-lamp
 serv3
+
+[container]
+containers
