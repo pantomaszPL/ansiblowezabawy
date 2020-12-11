@@ -1,0 +1,29 @@
+---
+
+
+       -  name: create webpage dir
+          file:
+            path: "{{ webpage_dir_src }}"
+            state: directory
+            mode: 0755
+            owner: "{{ dir_owner }}"
+            group: "{{ dir_grp }}"
+
+       -  name: copy www file from controler to host
+          copy:
+            src: "{{ webpage_file }}"
+            dest: "{{ webpage_file_src }}"
+
+       -  name: create and launch http server container
+          docker_container:
+            name: "{{ image_name }}"
+            image: "{{ image }}"
+            state: started
+            ports: "8080:80"
+            volumes:
+              - "/home/ansible/www/:/usr/local/apache2/htdocs"
+
+       -  name: check container status
+          command: "docker ps"
+          register: result
+       -  debug: var=result.stdout

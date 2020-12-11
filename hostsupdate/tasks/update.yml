@@ -1,0 +1,6 @@
+---
+
+  -  name: update for /etc/hosts
+     template:
+       src: hoststemplate.j2
+       dest: /etc/hosts

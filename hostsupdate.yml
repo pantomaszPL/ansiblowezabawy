@@ -1,6 +1,9 @@
 ---
+
+
   -  name: Updating /etc/hosts
      hosts: all
+     gather_facts: true
      become: true
      roles: 
        - hostsupdate

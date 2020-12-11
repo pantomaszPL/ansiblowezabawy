@@ -1,0 +1,5 @@
+---
+
+  -  name: gather_facts
+     setup:
+       gather_subset: all

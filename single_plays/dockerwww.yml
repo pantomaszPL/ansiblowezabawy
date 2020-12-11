@@ -1,0 +1,58 @@
+---
+
+  -  name: setup apache on docker
+     hosts: containers
+     become: true
+     tasks:
+       -  name: add docker repo
+          yum_repository:
+            name: docker
+            description: docker-repo
+            file: docker
+            baseurl: https://download.docker.com/linux/centos/8/x86_64/stable/
+            gpgcheck: no
+
+       -  name: install docker
+          command: "yum install docker-ce --allowerasing -y"
+
+       -  name: start and enable docker service
+          service:
+            name: docker
+            state: started
+            enabled: true
+          become: yes
+
+       -  name: install docker sdk for python
+          command: "pip3 install docker-py"
+
+       -  name: create webpage dir
+          file:
+            path: /home/ansible/www
+            state: directory
+            mode: 0755
+            owner: ansible
+            group: ansible
+
+       -  name: copy www file from controler to host
+          copy:
+            src: docker.html
+            dest: /home/ansible/www/docker.html
+
+       -  name: create and launch http server container
+          docker_container:
+            name: http_test
+            image: httpd
+            state: started
+            ports: "8080:80"
+            volumes:
+              - "/home/ansible/www/:/usr/local/apache2/htdocs"
+
+       -  name: check container status
+          command: "docker ps"
+          register: result
+       -  debug: var=result.stdout
+
+
+
+
+

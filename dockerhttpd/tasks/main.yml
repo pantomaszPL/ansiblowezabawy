@@ -1,0 +1,5 @@
+---
+# tasks file for dockerhttpd
+
+  - import_tasks: installdocker.yml
+  - import_tasks: deployhttpd.yml

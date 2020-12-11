@@ -1,0 +1,7 @@
+---
+
+   -  name: setup apache on docker
+      hosts: containers
+      become: true
+      roles:
+         - dockerhttpd

@@ -1,7 +1,5 @@
 ---
 # tasks file for hostsupdate
 
-  -  name: update for /etc/hosts
-     template:
-       src: hoststemplate.j2
-       dest: /etc/hosts
+  - import_tasks: gather.yml
+  - import_tasks: update.yml

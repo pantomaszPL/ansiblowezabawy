@@ -1,0 +1,13 @@
+---
+# vars file for dockerhttpd
+
+docker_url: https://download.docker.com/linux/centos/8/x86_64/stable/
+docker_repo_name: docker
+docker_service: docker
+webpage_dir_src: /home/ansible/www
+dir_owner: ansible
+dir_grp: ansible
+webpage_file_src: /home/ansible/www/docker.html
+webpage_file: docker.html 
+image: httpd
+image_name: httpd_test
