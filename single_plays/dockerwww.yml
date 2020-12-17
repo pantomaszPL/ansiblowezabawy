@@ -38,14 +38,24 @@
             src: docker.html
             dest: /home/ansible/www/docker.html
 
+       -  name: copy dockerfile from controler to host
+           copy:
+             src: dockerfile
+             dest: /home/ansible/dockerfile
+
+       -  name: create and launch http server container
+          docker_image:
+            name: demotom:1.0
+            build:
+              path: /home/ansible/dockerfile
+            state: present
+
        -  name: create and launch http server container
           docker_container:
             name: http_test
-            image: httpd
+            image: demotom:1.0
             state: started
-            ports: "8080:80"
-            volumes:
-              - "/home/ansible/www/:/usr/local/apache2/htdocs"
+
 
        -  name: check container status
           command: "docker ps"
