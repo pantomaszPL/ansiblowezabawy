@@ -1,0 +1,30 @@
+---
+
+
+       -  name: add docker repo
+          yum_repository:
+            name: docker
+            description: docker-repo
+            file: docker
+            baseurl: "{{ repo_url }}"
+            gpgcheck: no
+
+       -  name: install docker
+          command: "yum install docker-ce --allowerasing -y"
+
+       -  name: start and enable docker service
+          service:
+            name: docker
+            state: started
+            enabled: true
+          become: yes
+
+       -  name: add user ansible to docker group
+          user:
+            name: "{{ user_to_add }}"
+            groups: "{{ add_to_group }}"
+            append: yes
+
+
+       -  name: install docker sdk for python
+          command: "pip3 install docker-py"

@@ -1,0 +1,16 @@
+---
+
+
+       -  name: create webpage dir
+          file:
+            path: "{{ webpage_dir }}"
+            state: directory
+            mode: 0755
+            owner: "{{ dir_owner }}"
+            group: "{{ dir_grp }}"
+
+       -  name: copy www file from controler to host
+          copy:
+            src: "{{ www_file }}"
+            dest: "{{ webpage_dir }}"
+
