@@ -9,8 +9,25 @@
             baseurl: "{{ repo_url }}"
             gpgcheck: no
 
-       -  name: install docker
+       -  name: perform podman check
+          command: "rpm -qa | grep podman"
+          register: podman_check
+          ignore_errors: true
+
+       -  name: install docker with allowerasing
           command: "yum install docker-ce --allowerasing -y"
+          when: "'podman' in podman_check.stdout"
+          register: install_command_result
+
+       -  name: install docker as no podman present
+          yum:
+            name: "{{ item }}"
+            state: latest
+          loop:
+            - docker-ce
+            - docker-ce-cli
+            - containerd
+          when: install_command_result.skipped
 
        -  name: start and enable docker service
           service:
