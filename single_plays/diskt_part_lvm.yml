@@ -1,0 +1,90 @@
+---
+
+   - name: partitioning and lvming - check disks
+     hosts: "{{ hosts_prompt }}"
+     vars_prompt:
+       - name: hosts_prompt
+         prompt: provide hosts to execute disk listing on
+         private: no
+     gather_facts: no
+     become: true
+     tasks:
+       -  name: disk listing
+          command: "lsblk"
+          register: lsblk_result
+          changed_when: false
+
+       -  name: disk listing result
+          debug:
+            var: lsblk_result
+
+
+   - name: partitioning and lvming
+     hosts: "{{ hosts_prompt }}"
+     gather_facts: no
+     vars_prompt:
+       - name: hosts_prompt
+         prompt: provide hosts or grps to execute part and lvm create on
+         private: no
+       - name: device
+         prompt: provide device to partition
+         private: no
+       - name: pvs_name
+         prompt: provide pv name
+         private: no
+       - name: vg_name
+         prompt: provide vg name
+         private: no
+       - name: lv_name
+         prompt: provide lv_name
+         private: no
+       - name: mpoint_path
+         prompt: provide mountpoint path
+         private: no
+       - name: fs_type
+         prompt: provide filesystem type do create
+         private: no
+     become: true
+     tasks:
+       -  name: create 100%free partition on disk
+          parted:
+            device: "{{ device }}"
+            number: 1
+            state: present
+            part_end: 100%
+
+       -  name: create vg
+          lvg:
+            vg: "{{ vg_name }}"
+            pvs: "{{ pvs_name }}"
+            pesize: 8
+
+       -  name: create lv
+          lvol:
+            vg: "{{ vg_name }}"
+            lv: "{{ lv_name }}"
+            size: 100%FREE
+
+       -  name: create mountpoint dir
+          file:
+            path: "{{ mpoint_path }}"
+            state: directory
+
+       -  name: create filesystem
+          filesystem:
+            fstype: "{{ fs_type }}"
+            dev: "/dev/mapper/{{ vg_name }}-{{ lv_name }}"
+
+       -  name: mounting device
+          mount:
+            path: "{{ mpoint_path }}"
+            src: "/dev/mapper/{{ vg_name }}-{{ lv_name }}"
+            fstype: "{{ fs_type }}"
+            opts: rw,nosuid,nodev
+            state: mounted
+
+
+
+
+
+
