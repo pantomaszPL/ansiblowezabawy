@@ -1,7 +1,11 @@
 ---
 
    -  name: setting all vms
-      hosts: all
+      hosts: "{{ hosts_prompt }}"
+      vars_prompt:
+        - name: hosts_prompt
+          prompt: provide hosts or group to execute vm setup play
+          private: no
       user: root
       become: true
       roles:
