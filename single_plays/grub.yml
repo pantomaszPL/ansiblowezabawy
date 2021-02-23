@@ -1,0 +1,18 @@
+---
+
+  -  name: change grub
+     hosts: all
+     become: true
+     vars:
+         linia: 'GRUB_CMDLINE_LINUX="ipv6.disable=1 crashkernel=auto resume=/dev/mapper/cl-swap rd.lvm.lv=cl/root rd.lvm.lv=cl/swap rhgb quiet"'
+     handlers:
+       -  name: perma_grub
+          command: "grub2-mkconfig > /boot/grub2/grub.cfg"
+     tasks:
+       -  name: change values
+          lineinfile:
+            dest: /etc/default/grub
+            regexp: "^GRUB_CMDLINE_LINUX="
+            line: "{{ linia }}"
+          notify: "perma_grub"
+   
