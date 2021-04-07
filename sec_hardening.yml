@@ -1,0 +1,11 @@
+---
+
+  -  name: Security hardening
+     hosts: "{{ hosts_prompt }}"
+     vars_prompt:
+       - name: hosts_prompt
+         prompt: provide hostname do run playbook on
+         private: no
+     become: true
+     roles:
+       - sec_hardening

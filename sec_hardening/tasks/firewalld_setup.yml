@@ -1,0 +1,28 @@
+---
+
+
+  -  name: add ssh port to internal zone
+     firewalld:
+       zone: internal
+       service: ssh
+       state: enabled
+       immediate: yes
+       permanent: yes
+
+
+  -  name: add permitted networks
+     firewalld:
+       zone: internal
+       source: 10.0.2.0/24
+       state: enabled
+       immediate: yes
+       permanent: yes
+
+  -  name: drop ssh from public zone
+     firewalld:
+       zone: public
+       service: ssh
+       state: disabled
+       immediate: yes
+       permanent: yes
+

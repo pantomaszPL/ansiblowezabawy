@@ -1,0 +1,6 @@
+---
+# tasks file for sec_hardening
+
+  - import_tasks: sshd_config.yml
+  - import_tasks: fail2ban.yml
+  - import_tasks: firewalld_setup.yml

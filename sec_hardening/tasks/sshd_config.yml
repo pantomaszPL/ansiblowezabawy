@@ -1,0 +1,25 @@
+---
+
+  -  name: set ssh key root login
+     lineinfile:
+       path: /etc/ssh/sshd_config
+       state: present
+       regexp: "^PasswordAuthentication"
+       line: "PasswordAuthentication no"
+     notify: reload_ssh
+
+  -  name: disable root login via passwd
+     lineinfile:
+       path: /etc/ssh/sshd_config
+       state: present
+       regexp: "^PermitRootLogin"
+       line: "PermitRootLogin prohibit-password"
+     notify: reload_ssh
+
+  -  name: disable root login via passwd
+     lineinfile:
+       path: /etc/ssh/sshd_config
+       state: present
+       regexp: "^PermitEmptyPasswords"
+       line: "PermitEmptyPasswords no"
+     notify: reload_ssh

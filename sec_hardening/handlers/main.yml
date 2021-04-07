@@ -1,0 +1,7 @@
+---
+# handlers file for sec_hardening
+
+  -  name: reload_ssh
+     service:
+       name: sshd
+       state: reloaded
