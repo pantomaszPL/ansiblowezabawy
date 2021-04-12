@@ -7,8 +7,28 @@
        -  name: check conn to server1
           wait_for:
            host: serv2-lamp
-           port: 22
+           port: 443
            timeout: 5
+          register: wynik
+          ignore_errors: true
+
+
+#       -  name: debug
+#          debug: msg="{{ wynik }}"
+
+#       -  name: set fact
+#          set_fact:
+#            polaczenie: "{{ wynik.failed }}"
+#          register: wynik_false
+
+#       -  name: debug
+#          debug: msg="{{ polaczenie }}"
+
+
+       -  name: comment
+          debug:
+            msg:  no connection
+          when: wynik is failed
 
 
 
