@@ -1,0 +1,15 @@
+---
+
+
+  -  name: conn check start
+     hosts: serv1-nfs
+     tasks:
+       -  name: check conn to server1
+          wait_for:
+           host: serv2-lamp
+           port: 22
+           timeout: 5
+
+
+
+
